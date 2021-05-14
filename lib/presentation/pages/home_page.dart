@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inputHeight = 51.0;
+    final inputHeight = 67.0;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -24,7 +24,6 @@ class HomePage extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: TextField(
-                textAlign: TextAlign.center,
                 textAlignVertical: TextAlignVertical.center,
                 onChanged: (key) =>
                     locator<HomeBloc>().add(SearchEnteredEvent(key)),
@@ -35,7 +34,7 @@ class HomePage extends StatelessWidget {
                   ),
                   isDense: true,
                   contentPadding:
-                      const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
+                      const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 16.0),
                 ),
               ),
             ),

@@ -1,16 +1,19 @@
-# tlv
+# Test Task
 
-A new Flutter project.
+Requests missions list from https://api.spacex.land/graphql/ and shows data in a list.
+Uses flutter_bloc and implements Repository pattern.
+Has bloc_tests.
+Has pagination.
 
-## Getting Started
+## Launching
 
-This project is a starting point for a Flutter application.
+In order to launch the app, the reviewer should either download it from Releases bar on github, or build it by hand.
 
-A few resources to get you started if this is your first Flutter project:
+## Building (optional)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To build the app, reviewer should have flutter sdk installed and android/ios emulator setup as written in the following instruction https://flutter.dev/docs/get-started/install.
+Download source code from github repository.
+Using reviewer's terminal app cd into the source code folder and run 
+> flutter pub get
+> flutter run
+The android emulator should be launched and app will be available for testing.

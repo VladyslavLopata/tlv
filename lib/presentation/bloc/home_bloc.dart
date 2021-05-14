@@ -1,68 +1,77 @@
 import 'dart:async';
 
-import 'package:tlv/data/repositories/mission_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tlv/domain/repositories/mission_repository.dart';
 import 'package:tlv/presentation/bloc/home_events.dart';
 import 'package:tlv/presentation/bloc/home_states.dart';
-import 'package:tlv/services/service_locator.dart';
 
-class HomeBlock {
-  late final StreamController<HomeState> _stateStream;
-  late final StreamController<HomeEvent> _eventStream;
-  late final StreamSubscription _stateSubscription;
-  late final StreamSubscription _eventSubscription;
-  HomeState _currentState = HomeStateLoading();
-  late final MissionRepository _dataRespoitory;
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final IMissionRepository _dataRespoitory;
+  late String _searchKey;
   late int _page;
-  late String _search;
+  Timer? _timer;
 
-  HomeBlock() {
+  HomeBloc(this._dataRespoitory) : super(LoadingState()) {
+    _searchKey = '';
     _page = 0;
-    _search = '';
-    _dataRespoitory = locator<MissionRepository>();
-
-    _stateStream = StreamController<HomeState>.broadcast();
-    _eventStream = StreamController<HomeEvent>.broadcast();
-
-    _stateSubscription = _stateStream.stream.listen((event) {
-      _currentState = event;
-    });
-    _eventSubscription = _eventStream.stream.listen(_eventMapper);
-
-    _stateStream.addStream(_initialization);
   }
 
-  void _eventMapper(HomeEvent event) {
-    _stateStream.addStream(_mapEventToState(event));
+  Stream<HomeState> _initialization() async* {
+    yield* _getData;
   }
 
-  Stream<HomeState> _mapEventToState(HomeEvent event) async* {
-    if (event is ScrollExtentReachedEvent && _currentState is HomeStateLoaded) {
-      final currentState = _currentState as HomeStateLoaded;
-      yield currentState.copyWith(loading: true);
-      yield await _dataRespoitory.getMissions(_search, _page++).then<HomeState>(
-            (missions) => HomeStateLoaded(
-              (currentState).missions + missions,
-            ),
+  Stream<HomeState> _scrollExtentReached() async* {
+    if (state is LoadedState) {
+      final _state = (state as LoadedState);
+      _page++;
+      yield await _dataRespoitory.getMissions(_searchKey, _page).then(
+        (missions) {
+          if (missions.length < 10) return CompletedState(_state.missions);
+          return LoadedState(
+            _state.missions + missions,
           );
+        },
+      );
     }
   }
 
-  Stream<HomeState> get _initialization async* {
-    yield HomeStateLoading();
-    yield await _dataRespoitory
-        .getMissions('', 1)
-        .then<HomeState>((missions) => HomeStateLoaded(missions))
-        .catchError((_) {});
+  Stream<HomeState> _searchEntered(String searchKey) async* {
+    _timer?.cancel();
+    if (searchKey.isEmpty || searchKey.length >= 3) {
+      _timer = _buildTimer(searchKey);
+    }
   }
 
-  Stream<HomeState> get dataStream => _stateStream.stream;
-  HomeState get currentState => _currentState;
-  void pushEvent(HomeEvent event) => _eventStream.add(event);
+  Stream<HomeState> _timerElapsed(String searchKey) async* {
+    _searchKey = searchKey;
+    _page = 0;
+    yield* _getData;
+  }
 
-  void onDispose() {
-    _stateSubscription.cancel();
-    _eventSubscription.cancel();
-    _stateStream.close();
-    _eventStream.close();
+  Timer _buildTimer(String searchKey) => Timer(
+        Duration(milliseconds: 500),
+        () => add(
+          TimerElapsedEvent(searchKey),
+        ),
+      );
+
+  Stream<HomeState> get _getData async* {
+    yield LoadingState();
+    yield await _dataRespoitory.getMissions(_searchKey, _page).then(
+      (missions) {
+        if (missions.length < 10) return CompletedState(missions);
+        return LoadedState(missions);
+      },
+    );
+  }
+
+  @override
+  Stream<HomeState> mapEventToState(HomeEvent event) async* {
+    yield* event.when(
+      scrollExtentReached: _scrollExtentReached,
+      searchEntered: _searchEntered,
+      timerElapsed: _timerElapsed,
+      init: _initialization,
+    );
   }
 }

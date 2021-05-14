@@ -16,14 +16,19 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$HomeStateTearOff {
   const _$HomeStateTearOff();
 
-  HomeStateLoading loading() {
-    return const HomeStateLoading();
+  LoadingState loading() {
+    return const LoadingState();
   }
 
-  HomeStateLoaded loaded(List<Mission> missions, [bool loading = false]) {
-    return HomeStateLoaded(
+  LoadedState loaded(List<Mission> missions) {
+    return LoadedState(
       missions,
-      loading,
+    );
+  }
+
+  CompletedState completed(List<Mission> missions) {
+    return CompletedState(
+      missions,
     );
   }
 }
@@ -36,26 +41,30 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<Mission> missions, bool loading) loaded,
+    required TResult Function(List<Mission> missions) loaded,
+    required TResult Function(List<Mission> missions) completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Mission> missions, bool loading)? loaded,
+    TResult Function(List<Mission> missions)? loaded,
+    TResult Function(List<Mission> missions)? completed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HomeStateLoading value) loading,
-    required TResult Function(HomeStateLoaded value) loaded,
+    required TResult Function(LoadingState value) loading,
+    required TResult Function(LoadedState value) loaded,
+    required TResult Function(CompletedState value) completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HomeStateLoading value)? loading,
-    TResult Function(HomeStateLoaded value)? loaded,
+    TResult Function(LoadingState value)? loading,
+    TResult Function(LoadedState value)? loaded,
+    TResult Function(CompletedState value)? completed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -77,27 +86,27 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $HomeStateLoadingCopyWith<$Res> {
-  factory $HomeStateLoadingCopyWith(
-          HomeStateLoading value, $Res Function(HomeStateLoading) then) =
-      _$HomeStateLoadingCopyWithImpl<$Res>;
+abstract class $LoadingStateCopyWith<$Res> {
+  factory $LoadingStateCopyWith(
+          LoadingState value, $Res Function(LoadingState) then) =
+      _$LoadingStateCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$HomeStateLoadingCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
-    implements $HomeStateLoadingCopyWith<$Res> {
-  _$HomeStateLoadingCopyWithImpl(
-      HomeStateLoading _value, $Res Function(HomeStateLoading) _then)
-      : super(_value, (v) => _then(v as HomeStateLoading));
+class _$LoadingStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
+    implements $LoadingStateCopyWith<$Res> {
+  _$LoadingStateCopyWithImpl(
+      LoadingState _value, $Res Function(LoadingState) _then)
+      : super(_value, (v) => _then(v as LoadingState));
 
   @override
-  HomeStateLoading get _value => super._value as HomeStateLoading;
+  LoadingState get _value => super._value as LoadingState;
 }
 
 /// @nodoc
 
-class _$HomeStateLoading implements HomeStateLoading {
-  const _$HomeStateLoading();
+class _$LoadingState implements LoadingState {
+  const _$LoadingState();
 
   @override
   String toString() {
@@ -106,7 +115,7 @@ class _$HomeStateLoading implements HomeStateLoading {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is HomeStateLoading);
+    return identical(this, other) || (other is LoadingState);
   }
 
   @override
@@ -116,7 +125,8 @@ class _$HomeStateLoading implements HomeStateLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<Mission> missions, bool loading) loaded,
+    required TResult Function(List<Mission> missions) loaded,
+    required TResult Function(List<Mission> missions) completed,
   }) {
     return loading();
   }
@@ -125,7 +135,8 @@ class _$HomeStateLoading implements HomeStateLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Mission> missions, bool loading)? loaded,
+    TResult Function(List<Mission> missions)? loaded,
+    TResult Function(List<Mission> missions)? completed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -137,8 +148,9 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HomeStateLoading value) loading,
-    required TResult Function(HomeStateLoaded value) loaded,
+    required TResult Function(LoadingState value) loading,
+    required TResult Function(LoadedState value) loaded,
+    required TResult Function(CompletedState value) completed,
   }) {
     return loading(this);
   }
@@ -146,8 +158,9 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HomeStateLoading value)? loading,
-    TResult Function(HomeStateLoaded value)? loaded,
+    TResult Function(LoadingState value)? loading,
+    TResult Function(LoadedState value)? loaded,
+    TResult Function(CompletedState value)? completed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -157,102 +170,92 @@ class _$HomeStateLoading implements HomeStateLoading {
   }
 }
 
-abstract class HomeStateLoading implements HomeState {
-  const factory HomeStateLoading() = _$HomeStateLoading;
+abstract class LoadingState implements HomeState {
+  const factory LoadingState() = _$LoadingState;
 }
 
 /// @nodoc
-abstract class $HomeStateLoadedCopyWith<$Res> {
-  factory $HomeStateLoadedCopyWith(
-          HomeStateLoaded value, $Res Function(HomeStateLoaded) then) =
-      _$HomeStateLoadedCopyWithImpl<$Res>;
-  $Res call({List<Mission> missions, bool loading});
+abstract class $LoadedStateCopyWith<$Res> {
+  factory $LoadedStateCopyWith(
+          LoadedState value, $Res Function(LoadedState) then) =
+      _$LoadedStateCopyWithImpl<$Res>;
+  $Res call({List<Mission> missions});
 }
 
 /// @nodoc
-class _$HomeStateLoadedCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
-    implements $HomeStateLoadedCopyWith<$Res> {
-  _$HomeStateLoadedCopyWithImpl(
-      HomeStateLoaded _value, $Res Function(HomeStateLoaded) _then)
-      : super(_value, (v) => _then(v as HomeStateLoaded));
+class _$LoadedStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
+    implements $LoadedStateCopyWith<$Res> {
+  _$LoadedStateCopyWithImpl(
+      LoadedState _value, $Res Function(LoadedState) _then)
+      : super(_value, (v) => _then(v as LoadedState));
 
   @override
-  HomeStateLoaded get _value => super._value as HomeStateLoaded;
+  LoadedState get _value => super._value as LoadedState;
 
   @override
   $Res call({
     Object? missions = freezed,
-    Object? loading = freezed,
   }) {
-    return _then(HomeStateLoaded(
+    return _then(LoadedState(
       missions == freezed
           ? _value.missions
           : missions // ignore: cast_nullable_to_non_nullable
               as List<Mission>,
-      loading == freezed
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class _$HomeStateLoaded implements HomeStateLoaded {
-  const _$HomeStateLoaded(this.missions, [this.loading = false]);
+class _$LoadedState implements LoadedState {
+  const _$LoadedState(this.missions);
 
   @override
   final List<Mission> missions;
-  @JsonKey(defaultValue: false)
-  @override
-  final bool loading;
 
   @override
   String toString() {
-    return 'HomeState.loaded(missions: $missions, loading: $loading)';
+    return 'HomeState.loaded(missions: $missions)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is HomeStateLoaded &&
+        (other is LoadedState &&
             (identical(other.missions, missions) ||
                 const DeepCollectionEquality()
-                    .equals(other.missions, missions)) &&
-            (identical(other.loading, loading) ||
-                const DeepCollectionEquality().equals(other.loading, loading)));
+                    .equals(other.missions, missions)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(missions) ^
-      const DeepCollectionEquality().hash(loading);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(missions);
 
   @JsonKey(ignore: true)
   @override
-  $HomeStateLoadedCopyWith<HomeStateLoaded> get copyWith =>
-      _$HomeStateLoadedCopyWithImpl<HomeStateLoaded>(this, _$identity);
+  $LoadedStateCopyWith<LoadedState> get copyWith =>
+      _$LoadedStateCopyWithImpl<LoadedState>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<Mission> missions, bool loading) loaded,
+    required TResult Function(List<Mission> missions) loaded,
+    required TResult Function(List<Mission> missions) completed,
   }) {
-    return loaded(missions, this.loading);
+    return loaded(missions);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<Mission> missions, bool loading)? loaded,
+    TResult Function(List<Mission> missions)? loaded,
+    TResult Function(List<Mission> missions)? completed,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(missions, this.loading);
+      return loaded(missions);
     }
     return orElse();
   }
@@ -260,8 +263,9 @@ class _$HomeStateLoaded implements HomeStateLoaded {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HomeStateLoading value) loading,
-    required TResult Function(HomeStateLoaded value) loaded,
+    required TResult Function(LoadingState value) loading,
+    required TResult Function(LoadedState value) loaded,
+    required TResult Function(CompletedState value) completed,
   }) {
     return loaded(this);
   }
@@ -269,8 +273,9 @@ class _$HomeStateLoaded implements HomeStateLoaded {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HomeStateLoading value)? loading,
-    TResult Function(HomeStateLoaded value)? loaded,
+    TResult Function(LoadingState value)? loading,
+    TResult Function(LoadedState value)? loaded,
+    TResult Function(CompletedState value)? completed,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -280,13 +285,131 @@ class _$HomeStateLoaded implements HomeStateLoaded {
   }
 }
 
-abstract class HomeStateLoaded implements HomeState {
-  const factory HomeStateLoaded(List<Mission> missions, [bool loading]) =
-      _$HomeStateLoaded;
+abstract class LoadedState implements HomeState {
+  const factory LoadedState(List<Mission> missions) = _$LoadedState;
 
   List<Mission> get missions => throw _privateConstructorUsedError;
-  bool get loading => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $HomeStateLoadedCopyWith<HomeStateLoaded> get copyWith =>
+  $LoadedStateCopyWith<LoadedState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CompletedStateCopyWith<$Res> {
+  factory $CompletedStateCopyWith(
+          CompletedState value, $Res Function(CompletedState) then) =
+      _$CompletedStateCopyWithImpl<$Res>;
+  $Res call({List<Mission> missions});
+}
+
+/// @nodoc
+class _$CompletedStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
+    implements $CompletedStateCopyWith<$Res> {
+  _$CompletedStateCopyWithImpl(
+      CompletedState _value, $Res Function(CompletedState) _then)
+      : super(_value, (v) => _then(v as CompletedState));
+
+  @override
+  CompletedState get _value => super._value as CompletedState;
+
+  @override
+  $Res call({
+    Object? missions = freezed,
+  }) {
+    return _then(CompletedState(
+      missions == freezed
+          ? _value.missions
+          : missions // ignore: cast_nullable_to_non_nullable
+              as List<Mission>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CompletedState implements CompletedState {
+  const _$CompletedState(this.missions);
+
+  @override
+  final List<Mission> missions;
+
+  @override
+  String toString() {
+    return 'HomeState.completed(missions: $missions)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CompletedState &&
+            (identical(other.missions, missions) ||
+                const DeepCollectionEquality()
+                    .equals(other.missions, missions)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(missions);
+
+  @JsonKey(ignore: true)
+  @override
+  $CompletedStateCopyWith<CompletedState> get copyWith =>
+      _$CompletedStateCopyWithImpl<CompletedState>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(List<Mission> missions) loaded,
+    required TResult Function(List<Mission> missions) completed,
+  }) {
+    return completed(missions);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(List<Mission> missions)? loaded,
+    TResult Function(List<Mission> missions)? completed,
+    required TResult orElse(),
+  }) {
+    if (completed != null) {
+      return completed(missions);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadingState value) loading,
+    required TResult Function(LoadedState value) loaded,
+    required TResult Function(CompletedState value) completed,
+  }) {
+    return completed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadingState value)? loading,
+    TResult Function(LoadedState value)? loaded,
+    TResult Function(CompletedState value)? completed,
+    required TResult orElse(),
+  }) {
+    if (completed != null) {
+      return completed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CompletedState implements HomeState {
+  const factory CompletedState(List<Mission> missions) = _$CompletedState;
+
+  List<Mission> get missions => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CompletedStateCopyWith<CompletedState> get copyWith =>
       throw _privateConstructorUsedError;
 }

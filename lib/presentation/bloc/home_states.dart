@@ -5,9 +5,7 @@ part 'home_states.freezed.dart';
 
 @freezed
 class HomeState with _$HomeState {
-  const factory HomeState.loading() = HomeStateLoading;
-  const factory HomeState.loaded(
-    List<Mission> missions, [
-    @Default(false) bool loading,
-  ]) = HomeStateLoaded;
+  const factory HomeState.loading() = LoadingState;
+  const factory HomeState.loaded(List<Mission> missions) = LoadedState;
+  const factory HomeState.completed(List<Mission> missions) = CompletedState;
 }

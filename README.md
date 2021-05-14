@@ -15,5 +15,7 @@ To build the app, reviewer should have flutter sdk installed and android/ios emu
 Download source code from github repository.
 Using reviewer's terminal app cd into the source code folder and run 
 > flutter pub get
+
 > flutter run
+
 The android emulator should be launched and app will be available for testing.
